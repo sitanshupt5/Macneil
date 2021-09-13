@@ -30,7 +30,7 @@ public class OrderSteps extends BaseUtils {
         productPage.verifyProductDetailsPage();
         cartPage = productPage.addProductToCart();
     }
-    @When("User proceeeds to Checkout")
+    @When("User proceeds to Checkout")
     public void cart_should_be_updated() {
         checkoutPage=cartPage.enterShippingDetails();
     }
