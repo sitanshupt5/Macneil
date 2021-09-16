@@ -2,6 +2,8 @@ package com.macneil.testbase;
 
 import com.macneil.pages.HomePage;
 import io.cucumber.java.Before;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,6 +17,7 @@ public class BaseUtils {
     public WebDriver driver;
     public Properties properties;
     public HomePage homePage;
+    Logger logger = LogManager.getLogger(BaseUtils.class);
 
     public void initializeDriver() throws IOException {
         properties = new Properties();
@@ -32,6 +35,7 @@ public class BaseUtils {
         initializeDriver();
         driver.get("https://macneilwashecommerce.dvlpsite.com/");
         homePage = new HomePage(driver);
+        logger.info(driver.getCurrentUrl() +"site has been opened");
     }
 
     public void closeBrowser()

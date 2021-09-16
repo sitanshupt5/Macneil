@@ -1,5 +1,7 @@
 package com.macneil.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,6 +16,7 @@ public class CheckoutPage {
 
     WebDriver driver;
     WebDriverWait wait;
+    Logger logger = LogManager.getLogger(CheckoutPage.class);
 
     @FindBy(xpath = "//input[@id='billing_first_name']")
     WebElement firstName;
@@ -61,24 +64,36 @@ public class CheckoutPage {
 
     public void placeOrder() throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(firstName)).sendKeys("pawan");
+        logger.info("First Name has been entered");
         wait.until(ExpectedConditions.visibilityOf(lastName)).sendKeys("tripathi");
+        logger.info("Last name has been entered");
         wait.until(ExpectedConditions.visibilityOf(addressLine1)).sendKeys("Enterprise Holdings Inc.");
+        logger.info("Address Line 1 has been entered");
         wait.until(ExpectedConditions.visibilityOf(addressLine2)).sendKeys("600 Corporate Park Drive");
+        logger.info("Address Line 2 has been entered");
         wait.until(ExpectedConditions.visibilityOf(phoneNumber)).sendKeys("7894561236");
+        logger.info("Phone number has been entered");
         wait.until(ExpectedConditions.visibilityOf(billingEmail)).sendKeys("abc@def.com");
+        logger.info("Billing email has been entered");
+        logger.info("Waiting for payment section to load");
         Thread.sleep(7000L);
         driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='Secure card number input frame']")));
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);",cardNumber);
         wait.until(ExpectedConditions.visibilityOf(cardNumber)).sendKeys("4444333322221111");
+        logger.info("Credit card number has been entered");
         driver.switchTo().defaultContent();
         driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='Secure expiration date input frame']")));
         wait.until(ExpectedConditions.visibilityOf(expiryDate)).sendKeys("1225");
+        logger.info("Credit card expiration date has been entered");
         driver.switchTo().defaultContent();
         driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='Secure CVC input frame']")));
         wait.until(ExpectedConditions.visibilityOf(cvvNumber)).sendKeys("111");
+        logger.info("Credit card CVV number has been entered");
         driver.switchTo().defaultContent();
         wait.until(ExpectedConditions.visibilityOf(acceptTerms)).click();
+        logger.info("Terms and conditions are accepted");
         wait.until(ExpectedConditions.visibilityOf(placeOrderButton)).click();
+        logger.info("Place order button has been clicked");
 
     }
 
@@ -87,5 +102,6 @@ public class CheckoutPage {
         Assert.assertTrue("Unauthourized Credit Card is accepted",
                 wait.until(ExpectedConditions.visibilityOf(ccAuthError)).getText().
                         equals("Unable to process this payment, please try again or use alternative method."));
+        logger.info("Error message is returned for Unauthorized Credit card");
     }
 }

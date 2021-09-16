@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "D:\\New Workspace\\Macneil\\src\\main\\java\\com\\macneil\\features\\Order.feature",
-        glue = {"stepdefinitions"},
+        glue = {"com.macneil.stepdefinitions","com.macneil.testbase"},
         monochrome = true,
-        plugin = {"pretty","html:test-output"},
-        dryRun = true
+        plugin = {"html:test-output", "progress"},
+        dryRun = false
 
 )
 public class OrderRunner {

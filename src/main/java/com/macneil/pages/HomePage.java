@@ -1,5 +1,7 @@
 package com.macneil.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +16,7 @@ public class HomePage {
 
     WebDriver driver;
     WebDriverWait webDriverWait;
+    Logger log = LogManager.getLogger(HomePage.class);
 
     @FindBy(css = ".pum-close")
     WebElement close_popup;
@@ -61,7 +64,9 @@ public class HomePage {
 
     public PartsPage openPartsPage(){
         webDriverWait.until(ExpectedConditions.visibilityOf(close_popup)).click();
+        log.info("Popup closed");
         webDriverWait.until(ExpectedConditions.visibilityOf(parts)).click();
+        log.info("Parts page open initiated");
         return new PartsPage(driver);
     }
 }

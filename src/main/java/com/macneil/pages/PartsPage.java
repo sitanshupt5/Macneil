@@ -1,5 +1,8 @@
 package com.macneil.pages;
 
+import com.macneil.testbase.BaseUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +19,7 @@ public class PartsPage {
 
     WebDriver driver;
     WebDriverWait webDriverWait;
+    Logger logger = LogManager.getLogger(PartsPage.class);
 
     @FindBy(id = "btn_register")
     WebElement signUp;
@@ -105,7 +109,9 @@ public class PartsPage {
     public ProductDetailsPage searchProduct(String productId) throws InterruptedException {
         Thread.sleep(10000L);
         webDriverWait.until(ExpectedConditions.visibilityOf(searchTextField)).sendKeys(productId);
+        logger.info("Product Id "+productId+" entered in search field");
         webDriverWait.until(ExpectedConditions.visibilityOf(searchButton)).click();
+        logger.info("Suggested item has been clicked");
         return new ProductDetailsPage(driver);
     }
 
